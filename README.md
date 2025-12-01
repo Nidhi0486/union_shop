@@ -1,4 +1,7 @@
 # Union Shop — Flutter Coursework
+**student name**- NIDHI PATEL 
+
+
 
 This repository contains the coursework project for students enrolled in the **Programming Applications and Programming Languages (M30235)** and **User Experience Design and Implementation (M32605)** modules at the University of Portsmouth.
 
@@ -144,153 +147,125 @@ From the Dimensions menu, select a mobile device preset (e.g., iPhone 12 Pro, Pi
 
 This assessment is worth 55% of the marks for the module's assessment item 1 (the remaining 45% comes from the weekly sign-offs). The mark for the assessment is divided into two components:
 
-- **[Application (functionality) (30%)](#application)**: Demonstrated through a live demo during practical
-- **[Software Development Practices (25%)](#software-development-practices)**: Assessed through your repository
 
-⚠️ You will only receive marks if you **both** attend a practical session for the demo **and** submit the link to your forked repository on Moodle before the deadline. Failure to do either will result in a mark of 0 for the entire coursework.
+# Union Shop — Coursework (Assessment-ready README)
 
-For info on the overall assessment structure, visit the [Flutter Course homepage](https://manighahrmani.github.io/sandwich_shop/).
+This README replaces the starter README and is written to help you meet the **Software Development Practices (25%)** marking criteria and to make it straightforward to run, test and submit the app.
 
-### Application
+## What this repository contains
 
-30% of the coursework mark comes from functionality demonstrated through a live demo during practical sessions. More information about the demo sessions is provided in the [demonstration section](#demonstration).
+- `lib/main.dart` — homepage and routes
+- `lib/product_page.dart` — a simple product details page
+- `test/` — widget tests shipped with the starter
+- `pubspec.yaml` — dependencies
 
-Your objective is to reimplement as many features from the existing [Union Shop website](https://shop.upsu.net) as you can in your forked repository using Flutter.
+If you forked this repo for the coursework, continue working in your fork and submit the fork URL on Moodle before the deadline.
 
-The table below is an almost comprehensive list of features present on the website, sorted by difficulty. Each feature has a corresponding percentage value indicating its weight in the 30% application mark and a reference link to the relevant page on the actual website.
+## Quick start — run locally (tested on Windows PowerShell)
 
-⚠️ Note that this assessment focuses on functionality over visual design (do not spend a lot of time making it look exactly like the real website). You do not have to list the exact same products or collections as the real website. You are also encouraged to use copyright-free or AI-generated images instead of downloading images from the real website.
+1. Install Flutter and tooling. Verify with:
 
-| Feature | Description | Marks (%) | Reference |
-|---------|-------------|-----------|-----------|
-| **Basic (40%)** | | | |
-| Static Homepage | Homepage layout and widgets with static content (hardcoded data* acceptable, mobile view focus) | 5% | [Homepage](https://shop.upsu.net/) |
-| Static Navbar | Top navigation bar with menu (links do not have to work at this stage, mobile view focus) | 5% | [Homepage](https://shop.upsu.net/) |
-| About Us Page | Static about us page* with company information (separate page from homepage) | 5% | [About Us](https://shop.upsu.net/pages/about-us) |
-| Footer | Footer with dummy* links and information present in at least one page | 4% | [Homepage](https://shop.upsu.net/) |
-| Dummy* Collections Page | Page displaying various collections of products (hardcoded data* acceptable) | 5% | [Collections](https://shop.upsu.net/collections/) |
-| Dummy* Collection Page | Page displaying products within one collection including dropdowns and filters (hardcoded data* acceptable, widgets do not have to function) | 5% | [Collection Example](https://shop.upsu.net/collections/autumn-favourites) |
-| Dummy* Product Page | Product page showing details and images with dropdowns, buttons and widgets (hardcoded data* acceptable, widgets do not have to function) | 4% | [Product Example](https://shop.upsu.net/collections/autumn-favourites/products/classic-sweatshirt-1) |
-| Sale Collection | Page showing sale products with discounted prices and promotional messaging (hardcoded data* acceptable, widgets do not have to function) | 4% | [Sale Items](https://shop.upsu.net/collections/sale-items) |
-| Authentication UI | Login/signup page with the relevant forms (widgets do not have to function) | 3% | [Sign In](https://shop.upsu.net/account/login) |
-| **Intermediate (35%)** | | | |
-| Navigation | Full navigation across all pages; users should be able to navigate using buttons, navbar, and URLs | 3% | All pages |
-| Dynamic Collections Page | Collections page populated from data models or services with functioning sorting, filtering, pagination widgets | 6% | [Collections](https://shop.upsu.net/collections/) |
-| Dynamic Collection Page | Product listings of a collection populated from data models or services with functioning sorting, filtering, pagination widgets | 6% | [Collection Example](https://shop.upsu.net/collections/autumn-favourites) |
-| Functional Product Pages | Product pages populated from data models or services with functioning dropdowns and counters (add to cart buttons do not have to work yet) | 6% | [Product Example](https://shop.upsu.net/collections/autumn-favourites/products/classic-sweatshirt-1) |
-| Shopping Cart | Add items to cart, view cart page, basic cart functionality (checkout buttons should place order without real monetary transactions) | 6% | [Cart](https://shop.upsu.net/cart) |
-| Print Shack | Text personalisation page with associated about page, the form must dynamically update based on selected fields | 3% | [Personalisation](https://shop.upsu.net/products/personalise-text) |
-| Responsiveness* | The layout of the application should be adaptive and the application should function on desktop in addition to mobile view (no need to test it on real devices) | 5% | All pages |
-| **Advanced (25%)** | | | |
-| Authentication System | Full user authentication and account management (you can implement this with other external authentications like Google, not just Shop), includes the account dashboard and all relevant functionality | 8% | [Account](https://shop.upsu.net/account) |
-| Cart Management | Full cart functionality including quantity editing/removal, price calculations and persistence | 6% | [Cart](https://shop.upsu.net/cart) |
-| Search System | Complete search functionality (search buttons should function on the navbar and the footer) | 4% | [Search](https://shop.upsu.net/search) |
-
-Below are explanations for some of the terminology used in the table:
-
-***Pages** refer to distinct screens or views in your application that users can navigate to. See [line 22 of `lib/main.dart`](https://github.com/manighahrmani/union_shop/blob/main/lib/main.dart#L22) or the `navigateToProduct` function in the same file for an example of how to define routes for different pages.
-
-***Hardcoded data** refers to data (text or images) that is directly written into your code files rather than being fetched from a database or external service. For example, you can create a list of products with an AI-generated image and text descriptions directly in your Dart code instead of retrieving them from a backend.
-
-***Dummy data** is data that is often hardcoded or (AI) generated for display or testing purposes. It is not meant to represent real-world data stored in your services.
-
-***Responsiveness** refers to the ability of your application to adapt its layout and design based on the screen size and orientation of the device it is being viewed on. Your app should primarily focus on mobile view but to achieve full marks in this section, it should also function correctly on wider screens (desktop view).
-
-### Software Development Practices
-
-In addition to functionality, you will be assessed on your software development practices demonstrated throughout the project (worth 25% of the coursework mark). These marks are awarded after the demo based on evidence in your repository.
-
-The table below outlines the aspects that will be evaluated and the mark (from the 25%) allocated to each:
-
-| Aspect | Description | Marks (%) |
-|--------|-------------|-----------|
-| Git | Regular, small, meaningful commits* to your repository throughout development; clear commit messages | 8% |
-| README | A comprehensive, well-formatted and accurate README file* (delete the current README file first) | 5% |
-| Testing | Tests covering all or almost all of the application; passing tests | 6% |
-| External Services* | Integration and utilization of cloud services | 6% |
-
-⚠️ You may not be awarded the 25% software development practices mark if your code has problems or poor quality. Your code must be properly formatted and free from errors, warnings, or suggestions. Make sure your codebase is also well-structured, refactored and relatively free of repetition too. Your code must be your own work (you need to understand it). **Plagiarised code** (e.g., commits showing large chunks of code copied over, especially from other students) will be penalised according to the University’s academic misconduct policy, and you be awarded 0 marks for the entire coursework.
-
-Below are some explanations for the terminology used in the table:
-
-***Regular, small, meaningful commits**: [worksheet 2](https://manighahrmani.github.io/sandwich_shop/worksheet-2.html) onwards on the [Flutter Course homepage](https://manighahrmani.github.io/sandwich_shop/) have demonstrated how to use Git effectively. You need to follow the practice taught in the worksheets.
-
-***README**: Refer to [worksheet 4](https://manighahrmani.github.io/sandwich_shop/worksheet-4.html#writing-a-readme) for guidance on writing a good README file.
-
-***External Services** refer to third-party cloud services like Firebase or Azure that your application integrates with. This could include services like user authentication, database, or hosting the application live on the web. To get marks for this, you must integrate at **least two** separate external services. You are only awarded marks if your README documents this integration and explains how it is used in your application (e.g., provide a live link to the website if you have hosted it).
-
-## Submission
-
-You need to submit the link to your forked repository on Moodle **before the deadline**. Open the Moodle page for Programming Applications and Programming Languages (M30235) or User Experience Design and Implementation (M32605) and find the submission section titled "Item 1 - Set exercise (coursework) (CW)". See below:
-
-![Moodle Submission Page](https://raw.githubusercontent.com/manighahrmani/sandwich_shop/refs/heads/main/images/screenshot_moodle_submission_section.png)
-
-Open the On time or the Late/Extenuating Circumstances submission link and click on Add submission. There you will find an editable Online text field. Paste the link to the GitHub repository for your coursework in the provided text field and click on Save changes. You are **not** submitting any files for this coursework.
-
-![Moodle Submission Online Text](https://raw.githubusercontent.com/manighahrmani/sandwich_shop/refs/heads/main/images/screenshot_moodle_submission_online_text.png)
-
-Make sure the repository is public. Check to see if it opens in an incognito/private window (you should not get a 404 error).
-
-⚠️ You can edit the link itself before the deadline, but do not edit the repository (do not make new commits) after the deadline. I will label your submission as late if you do this.
-
-## Demonstration
-
-The demos take place during your usual timetabled practical sessions in weeks 19 or 20 (Friday 12/12/2025 or Friday 19/12/2025). More information about the demo sessions will be provided closer to the time.
-
-During the demo, you will have **up to 10 minutes** to demonstrate your application to staff. You must clone your repository and run the application live. You need to be prepared to show the features you have implemented and answer any questions about your code.
-
-⚠️ Make sure your application runs correctly (on your personal device or the university computers) from a fresh clone before attending the demo session.
-
-## Project Structure
-
-This starter repository that you will fork provides a minimal skeletal structure with:
-
-- **Homepage** (`lib/main.dart`): A basic homepage
-- **Product Page** (`lib/product_page.dart`): A single product page
-- **Widget Tests**: Basic tests for both of the above pages (`test/home_test.dart` and `test/product_test.dart`)
-
-Here is an overview of the project structure after forking:
-
-```plaintext
-union_shop/
-├── lib/
-│   ├── main.dart           # Main application and homepage
-│   └── product_page.dart   # Product detail page
-├── test/
-│   ├── home_test.dart      # Homepage widget tests
-│   └── product_test.dart   # Product page widget tests
-├── pubspec.yaml            # Project dependencies
-└── README.md               # This file
+```powershell
+flutter doctor
 ```
 
-Note that this is the initial structure. You are expected to create additional files and directories as needed to complete the coursework. You can also reorganize the project structure as you see fit.
+2. Get dependencies:
 
-## Help with Coursework
+```powershell
+flutter pub get
+```
 
-### Support
+3. Run the app in Chrome (recommended for mobile view emulation):
 
-If you have questions or encounter issues while working on this coursework, use [the dedicated Discord channel](https://portdotacdotuk-my.sharepoint.com/:b:/g/personal/mani_ghahremani_port_ac_uk/EbX583gvURRAhqsnhYqmbSEBwIFw6tXRyz_Br1GxIyE8dg) to ask for help. Before posting a new question, check the existing posts to see if your question has already been answered. You can also attend your timetabled practical sessions to get face-to-face support from teaching staff.
+```powershell
+flutter run -d chrome
+```
 
-If you are facing external extenuating circumstances that are affecting your ability to complete this coursework, you should submit an [Extenuating Circumstances Form](https://myport.port.ac.uk/my-course/exams/extenuating-circumstances) as soon as possible. You are also welcome to contact me on Discord for additional support without needing to disclose the private details of your situation.
+Open DevTools (F12) and toggle device toolbar to simulate a mobile screen.
 
-### Resources
+## Tests
 
-The worksheets listed on [the homepage](https://manighahrmani.github.io/sandwich_shop/) are your primary learning resource for Flutter development. Work through these worksheets systematically as they provide the foundation you need to complete the coursework successfully. Refrain from using other online resources such as Stack Overflow, YouTube tutorials, or other websites for this coursework as they may contain outdated or incorrect information that could lead you astray.
+Run widget tests shipped in `test/` with:
 
-### Tips
+```powershell
+flutter test
+```
 
-Starting early is crucial for success in this coursework. The earlier you begin, the more time you have to learn, experiment, and seek help when needed. You should aim to work on the coursework alongside the worksheets rather than leaving everything until the end. As you complete each worksheet, implement the corresponding features in your coursework application. This approach allows you to apply what you learn immediately and build your application incrementally.
+Make sure tests pass before submitting. Aim to add more tests as you implement features.
 
-When planning your implementation, prioritize features based on the difficulty levels outlined in the [marking criteria](#application). Start with the basic features to establish a solid foundation before moving on to intermediate and advanced functionality. This strategy ensures you secure marks early and have a working application even if you run out of time for the more complex features.
+## Marking checklist (short)
 
-Version control is an essential part of this coursework. Commit your changes regularly to Git with clear, descriptive commit messages. Each commit should represent a small, meaningful unit of work rather than large batches of changes. This practice creates checkpoints you can return to if something goes wrong and demonstrates your development process to assessors. To commit and push your changes, use the following commands:
+This maps the marking criteria to concrete actions you can take in the repo. Use it as a checklist when preparing for demo and submission.
 
-```bash
+- Application (30% demonstrated in the demo): implement features from the marking table (homepage, collections, product pages, cart, authentication UI, responsiveness). Prioritise "Basic" features first.
+- Software dev practices (25% assessed from repository):
+  - Git (8%): regular, small, meaningful commits with clear messages — e.g., `feat: add product model` or `test: add product page tests`.
+  - README (5%): this file documents run steps, tests, external services, and submission checklist.
+  - Testing (6%): include widget/unit tests and keep them passing.
+  - External services (6%): integrate at least two cloud services (e.g., Firebase Auth + Firestore, or Firebase Storage + Firebase Hosting). Document the setup clearly in this README.
+
+## Submission & demo checklist
+
+Before the demo/assessment make sure you have done the following and can perform each step from a fresh clone:
+
+1. Push your work to your public fork `https://github.com/YOUR-USERNAME/union_shop`.
+2. On Moodle paste the URL of your fork in the submission field for Item 1 (before the deadline).
+3. Ensure `flutter pub get` and `flutter run -d chrome` work from a fresh clone.
+4. Tests: `flutter test` should pass.
+5. Prepare a 10-minute demo script showing the features you implemented and where they map to the marking table.
+
+Failure to attend the practical demo or to submit the fork URL on Moodle will result in 0 marks for the coursework.
+
+## External services (document here if used)
+
+If you integrate external services include the following information in this README:
+
+- Service provider (e.g., Firebase)
+- Which features use it (Auth, Firestore, Storage, Hosting)
+- Short setup notes (how to configure `google-services.json` / `GoogleService-Info.plist` or environment variables)
+- A public link if hosted
+
+Example (to copy & adapt):
+
+```
+Service: Firebase
+Used for: Authentication (email/password) and Firestore to store products and cart data
+Notes: add your `web` Firebase config in `lib/firebase_options.dart` (do not commit secrets)
+```
+
+You must integrate at least two separate external services to claim the "External Services" marks. Document them here.
+
+## Git & commit guidance
+
+- Commit early and often. Each commit should be a small logical unit.
+- Use meaningful messages: `feat: add collections page`, `fix: correct product price formatting`, `test: add product card tests`.
+- Create branches for large features and merge via pull requests where possible.
+
+Example minimal workflow (PowerShell):
+
+```powershell
+git checkout -b feat/collections
 git add .
-git commit -m "Brief description of what you changed"
-git push
+git commit -m "feat: add collections screen with hardcoded data"
+git push -u origin feat/collections
 ```
 
-If you make a mistake and need to revert to a previous commit, you can view your commit history with `git log --oneline`, find the commit hash where things were working (for example, `abc1234`), and revert to that commit with `git reset --hard abc1234`. If necessary, you can force push with `git push --force`. In extreme cases where your repository is completely broken and unrecoverable, you can start fresh by deleting your forked repository on GitHub (Settings → Danger Zone → Delete this repository), forking the original repository again from [github.com/manighahrmani/union_shop](https://github.com/manighahrmani/union_shop), and cloning your fresh fork.
+## Continuous integration (recommended)
 
-AI tools are valuable during development, and you are encouraged to use them. However, you must apply the best practices taught in the worksheets, particularly those covered in [Worksheet 6](https://manighahrmani.github.io/sandwich_shop/worksheet-6.html). AI-generated code should be reviewed, understood, and adapted to fit your application properly. Blindly copying AI suggestions without understanding them will likely result in poor code quality and may not meet the requirements. Use AI as a learning aid and coding partner rather than a replacement for your own understanding and decision-making.
+Add a simple GitHub Actions workflow to run `flutter analyze` and `flutter test` on push/PR. This is optional but improves the "software development practices" evidence.
+
+## Notes for assessors (optional)
+
+If you are the student submitting this repository, use the demo to highlight which features you implemented and where in the code they live (file paths and commit history). Provide any hosting links or service credentials required to view live functionality.
+
+## Next steps I can help with
+
+- Add a concise `.github/workflows/flutter-ci.yml` that runs `flutter analyze` and `flutter test` on each push.
+- Add/extend widget tests covering homepage and product pages.
+- Integrate Firebase (Auth + Firestore) and document the setup in this README.
+
+If you want me to proceed with any of the above, tell me which one and I'll implement it.
+
+---
+
+Last updated: 2025-12-01
