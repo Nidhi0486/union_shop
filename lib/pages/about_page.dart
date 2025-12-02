@@ -12,7 +12,7 @@ class AboutPage extends StatelessWidget {
         child: Column(
           children: const [
             AppHeader(),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
@@ -39,7 +39,7 @@ class AboutPage extends StatelessWidget {
                 ],
               ),
             ),
-            AppFooter(),
+            const AppFooter(),
           ],
         ),
       ),

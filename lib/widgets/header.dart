@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 import '../models/cart.dart';
 import '../pages/about_page.dart';
 
@@ -29,17 +30,43 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                     onTap: () => _go(context, '/'),
                     child: Row(
                       children: [
-                        Image.network(
-                          'https://shop.upsu.net/cdn/shop/files/upsu_300x300.png?v=1614735854',
-                          height: 36,
-                          width: 36,
-                          fit: BoxFit.cover,
-                          errorBuilder: (c, e, st) => Container(
-                            color: Colors.grey[300],
-                            width: 36,
-                            height: 36,
-                            child: const Icon(Icons.image_not_supported),
-                          ),
+                        // Try to use a local asset first (assets/images/logo.png).
+                        // If it's not present, fall back to the network image.
+                        FutureBuilder<bool>(
+                          future: rootBundle
+                              .load('assets/images/logo.png')
+                              .then((_) => true)
+                              .catchError((_) => false),
+                          builder: (context, snap) {
+                            if (snap.connectionState == ConnectionState.waiting) {
+                              return Container(
+                                color: Colors.grey[200],
+                                width: 36,
+                                height: 36,
+                              );
+                            }
+                            final hasAsset = snap.data == true;
+                            if (hasAsset) {
+                              return Image.asset(
+                                'assets/images/logo.png',
+                                height: 36,
+                                width: 36,
+                                fit: BoxFit.cover,
+                              );
+                            }
+                            return Image.network(
+                              'https://shop.upsu.net/cdn/shop/files/upsu_300x300.png?v=1614735854',
+                              height: 36,
+                              width: 36,
+                              fit: BoxFit.cover,
+                              errorBuilder: (c, e, st) => Container(
+                                color: Colors.grey[300],
+                                width: 36,
+                                height: 36,
+                                child: const Icon(Icons.image_not_supported),
+                              ),
+                            );
+                          },
                         ),
                         const SizedBox(width: 8),
                         const Text('Union Shop', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF4d2963))),

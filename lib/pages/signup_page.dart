@@ -12,6 +12,8 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   final _name = TextEditingController();
+  final _surname = TextEditingController();
+  final _phone = TextEditingController();
   final _email = TextEditingController();
   final _pass = TextEditingController();
   final _confirm = TextEditingController();
@@ -48,6 +50,21 @@ class _SignupPageState extends State<SignupPage> {
                       validator: (v) => (v == null || v.trim().isEmpty) ? 'Please enter your name' : null,
                     ),
                     TextFormField(
+                      controller: _surname,
+                      decoration: const InputDecoration(labelText: 'Surname'),
+                      validator: (v) => (v == null || v.trim().isEmpty) ? 'Please enter your surname' : null,
+                    ),
+                    TextFormField(
+                      controller: _phone,
+                      decoration: const InputDecoration(labelText: 'Phone number'),
+                      keyboardType: TextInputType.phone,
+                      validator: (v) {
+                        if (v == null || v.trim().isEmpty) return 'Please enter your phone number';
+                        if (!RegExp(r"^[0-9 +()-]{7,}$").hasMatch(v.trim())) return 'Enter a valid phone number';
+                        return null;
+                      },
+                    ),
+                    TextFormField(
                       controller: _email,
                       decoration: const InputDecoration(labelText: 'Email'),
                       validator: (v) {
@@ -77,7 +94,13 @@ class _SignupPageState extends State<SignupPage> {
                       onPressed: () async {
                         if (_formKey.currentState?.validate() ?? false) {
                           try {
-                            await _auth.signUp(_email.text.trim(), _pass.text.trim());
+                            await _auth.signUp(
+                              _email.text.trim(),
+                              _pass.text.trim(),
+                              name: _name.text.trim(),
+                              surname: _surname.text.trim(),
+                              phone: _phone.text.trim(),
+                            );
                             if (!mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Account created (dummy)')));
                             Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);

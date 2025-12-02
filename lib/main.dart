@@ -15,6 +15,8 @@ import 'package:union_shop/product_page.dart';
 import 'package:union_shop/widgets/header.dart';
 import 'package:union_shop/widgets/footer.dart';
 import 'package:union_shop/widgets/product_card.dart';
+import 'package:union_shop/pages/product_detail_page.dart';
+import 'package:union_shop/pages/account_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +49,7 @@ class UnionShopApp extends StatelessWidget {
           '/auth': (context) => const AuthPage(),
           '/login': (context) => const LoginPage(),
           '/signup': (context) => const SignupPage(),
+          '/account': (context) => const AccountPage(),
         },
       ),
     );
@@ -84,6 +87,7 @@ class HomeScreen extends StatelessWidget {
                   Positioned.fill(
                     child: Container(
                       decoration: const BoxDecoration(
+                        // use a placeholder background; NetworkImageWithFallback handles network failures
                         image: DecorationImage(
                           image: NetworkImage('https://via.placeholder.com/1200x600'),
                           fit: BoxFit.cover,
@@ -115,13 +119,21 @@ class HomeScreen extends StatelessWidget {
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
                       children: products.map((p) {
-                        return ProductCardSmall(
-                          title: p['title']!,
-                          price: p['price']!,
-                          imageUrl: p['image']!,
-                          onTap: () => Navigator.pushNamed(context, '/product'),
-                        );
-                      }).toList(),
+                          return ProductCardSmall(
+                            title: p['title']!,
+                            price: p['price']!,
+                            imageUrl: p['image']!,
+                            onTap: () {
+                              // push product detail with the product map
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProductDetailPage(product: Map<String, String>.from(p)),
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
                     ),
                   ],
                 ),
