@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 // Firebase removed for local development; add back when configured.
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,7 @@ import 'package:union_shop/widgets/footer.dart';
 import 'package:union_shop/widgets/product_card.dart';
 import 'package:union_shop/pages/product_detail_page.dart';
 import 'package:union_shop/pages/account_page.dart';
+import 'package:union_shop/pages/preview_images_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +38,33 @@ class UnionShopApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4d2963)),
+          // Aggressively disable default ink/focus/highlight overlays used on web
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          // Remove ripple/focus visual for Material widgets
+          splashFactory: NoSplash.splashFactory,
+          textButtonTheme: TextButtonThemeData(
+            style: ButtonStyle(
+              overlayColor: WidgetStateProperty.all(Colors.transparent),
+              splashFactory: NoSplash.splashFactory,
+            ),
+          ),
+          iconButtonTheme: IconButtonThemeData(
+            style: ButtonStyle(
+              overlayColor: WidgetStateProperty.all(Colors.transparent),
+              splashFactory: NoSplash.splashFactory,
+            ),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ButtonStyle(
+              overlayColor: WidgetStateProperty.all(Colors.transparent),
+              splashFactory: NoSplash.splashFactory,
+            ),
+          ),
+          dividerColor: Colors.grey.shade300,
+          dropdownMenuTheme: DropdownMenuThemeData(menuStyle: MenuStyle(backgroundColor: WidgetStateProperty.all(Colors.white))),
         ),
         initialRoute: '/',
         routes: {
@@ -50,27 +79,89 @@ class UnionShopApp extends StatelessWidget {
           '/login': (context) => const LoginPage(),
           '/signup': (context) => const SignupPage(),
           '/account': (context) => const AccountPage(),
+          '/preview': (context) => const PreviewImagesPage(),
         },
       ),
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final PageController _pageController = PageController();
+  Timer? _timer;
+  int _currentPage = 0;
+
+  final List<Map<String, String>> promos = [
+    {
+      'title': '20% OFF SITEWIDE',
+      'subtitle': 'Limited time — use code: UNION20',
+    },
+    {
+      'title': 'Free delivery over £50',
+      'subtitle': 'Get your favourites delivered for free',
+    },
+    {
+      'title': 'New arrivals: Autumn drop',
+      'subtitle': 'Fresh styles, limited quantities',
+    },
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 4), (_) {
+      if (!mounted) return;
+      _currentPage = (_currentPage + 1) % promos.length;
+      _pageController.animateToPage(_currentPage, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    const products = [
+    final products = [
       {
-        'title': 'Placeholder Product 1',
-        'price': '£10.00',
-        'image': 'https://via.placeholder.com/400x400'
+        'title': 'Purple Hoodie',
+        'price': '£30.00',
+        'description': 'Comfortable purple hoodie, 100% cotton.',
+        'images': ['assets/images/hoodie1.jpg', 'assets/images/hoodie2.png']
       },
       {
-        'title': 'Placeholder Product 2',
+        'title': 'Pink Hoodie',
+        'price': '£28.00',
+        'description': 'Soft pink hoodie with embroidered logo.',
+        'images': ['assets/images/hoodie2.png', 'assets/images/hoodie3.png']
+      },
+      {
+        'title': 'Classic T-shirt',
         'price': '£15.00',
-        'image': 'https://via.placeholder.com/400x400'
+        'description': 'Everyday tee, unisex fit.',
+        'images': ['assets/images/tshirt.png', 'assets/images/tshirt1.webp']
+      },
+      {
+        'title': 'Portsmouth Notebook',
+        'price': '£12.00',
+        'description': 'Official Portsmouth notebook.',
+        'images': ['assets/images/Notebook.png']
+      },
+      {
+        'title': 'Portsmouth Postcard Set',
+        'price': '£6.00',
+        'description': 'Pack of Portsmouth city postcards.',
+        'images': ['assets/images/PortsmouthCityPostcard.png']
       },
     ];
 
@@ -79,66 +170,133 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             const AppHeader(),
+            // Promo carousel hero
             SizedBox(
-              height: 300,
+              height: 360,
               width: double.infinity,
               child: Stack(
+                fit: StackFit.expand,
                 children: [
-                  Positioned.fill(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        // use a placeholder background; NetworkImageWithFallback handles network failures
-                        image: DecorationImage(
-                          image: NetworkImage('https://via.placeholder.com/1200x600'),
-                          fit: BoxFit.cover,
+                  PageView.builder(
+                    controller: _pageController,
+                    itemCount: promos.length,
+                    itemBuilder: (context, i) {
+                      final promo = promos[i];
+                      return Container(
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage('https://via.placeholder.com/1600x600'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      child: Container(color: Colors.black26),
+                        child: Container(
+                          color: const Color.fromRGBO(0, 0, 0, 0.35),
+                          child: Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(promo['title']!, style: const TextStyle(color: Colors.white, fontSize: 34, fontWeight: FontWeight.bold)),
+                                const SizedBox(height: 8),
+                                Text(promo['subtitle']!, style: const TextStyle(color: Colors.white70, fontSize: 16)),
+                                const SizedBox(height: 12),
+                                ElevatedButton(
+                                  onPressed: () => Navigator.pushNamed(context, '/collections'),
+                                  style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF4d2963)),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                    child: Text('Shop now', style: TextStyle(fontSize: 16)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    onPageChanged: (idx) => setState(() => _currentPage = idx),
+                  ),
+                  // Dots indicator
+                  Positioned(
+                    bottom: 18,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(promos.length, (i) {
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          width: _currentPage == i ? 12 : 8,
+                          height: _currentPage == i ? 12 : 8,
+                          decoration: BoxDecoration(color: _currentPage == i ? Colors.white : Colors.white54, shape: BoxShape.circle),
+                        );
+                      }),
                     ),
                   ),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () => Navigator.pushNamed(context, '/collections'),
-                      child: const Text('Browse products'),
-                    ),
-                  )
                 ],
               ),
             ),
+
             Container(
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('PRODUCTS', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    const Text('Featured products', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 12),
-                    GridView.count(
-                      shrinkWrap: true,
-                      crossAxisCount: MediaQuery.of(context).size.width > 600 ? 2 : 1,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      children: products.map((p) {
+
+                    LayoutBuilder(builder: (context, constraints) {
+                        int cols = 1;
+                        if (constraints.maxWidth > 1100) {
+                          cols = 3;
+                        } else if (constraints.maxWidth > 700) {
+                          cols = 2;
+                        }
+
+                      return GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: cols,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 0.9,
+                        ),
+                        itemCount: products.length,
+                        itemBuilder: (context, i) {
+                          final p = products[i];
+                          // prefer images list first image if present
+                          String imageSrc;
+                          final imgs = p['images'];
+                          if (imgs is List && imgs.isNotEmpty) {
+                            imageSrc = imgs[0] as String;
+                          } else {
+                            imageSrc = p['image'] as String;
+                          }
                           return ProductCardSmall(
-                            title: p['title']!,
-                            price: p['price']!,
-                            imageUrl: p['image']!,
+                            title: p['title']! as String,
+                            price: p['price']! as String,
+                            description: p['description'] as String?,
+                            imageUrl: imageSrc,
                             onTap: () {
-                              // push product detail with the product map
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProductDetailPage(product: Map<String, String>.from(p)),
+                                  builder: (context) => ProductDetailPage(product: Map<String, dynamic>.from(p)),
                                 ),
                               );
                             },
                           );
-                        }).toList(),
-                    ),
+                        },
+                      );
+                    }),
                   ],
                 ),
               ),
             ),
+
             const AppFooter(),
           ],
         ),

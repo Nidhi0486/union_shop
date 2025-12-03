@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/header.dart';
 import '../widgets/footer.dart';
 import '../widgets/network_image_fallback.dart';
-import '../widgets/local_placeholder_image.dart';
+// ...existing imports
 
 class CollectionsPage extends StatelessWidget {
   const CollectionsPage({super.key});
@@ -10,9 +10,10 @@ class CollectionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categories = [
-      {'name': 'Hoodies', 'image': 'local:hoodies'},
-      {'name': 'T-shirts', 'image': 'local:tshirts'},
-      {'name': 'Accessories', 'image': 'local:accessories'},
+      {'name': 'Hoodies', 'image': 'assets/images/hoodie1.jpg'},
+      {'name': 'T-shirts', 'image': 'assets/images/tshirt.png'},
+      // show a Portsmouth souvenir as the accessories thumbnail
+      {'name': 'Accessories', 'image': 'assets/images/PortsmouthCityPostcard.png'},
     ];
 
     return Scaffold(
@@ -41,13 +42,10 @@ class CollectionsPage extends StatelessWidget {
                             child: Stack(
                               fit: StackFit.expand,
                               children: [
-                                // Show a simple local placeholder (drawn in Flutter)
-                                if (c['image']!.startsWith('assets/'))
-                                  Image.asset(c['image']!, fit: BoxFit.cover)
-                                else if (c['image']!.startsWith('local:'))
-                                  LocalPlaceholderImage(label: c['name']!, color: Colors.purple.shade400)
-                                else
-                                  NetworkImageWithFallback(url: c['image']!),
+                                (() {
+                                  final imgPath = c['image']!;
+                                  return Image.asset(imgPath, fit: BoxFit.cover, errorBuilder: (ctx, e, st) => NetworkImageWithFallback(url: imgPath));
+                                })(),
                                 Container(
                                   alignment: Alignment.bottomLeft,
                                   padding: const EdgeInsets.all(12),

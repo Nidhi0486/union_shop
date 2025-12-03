@@ -56,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logged in (dummy)')));
                       Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
                     } catch (e) {
+                      if (!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login failed: ${e.toString()}')));
                     }
                   }, child: const Text('Login')),

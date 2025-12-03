@@ -103,6 +103,7 @@ class _SignupPageState extends State<SignupPage> {
                             );
                             if (!mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Account created (dummy)')));
+                            if (!mounted) return;
                             Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
                           } catch (e) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Signup failed: ${e.toString()}')));

@@ -24,9 +24,9 @@ class AppFooter extends StatelessWidget {
                 onTap: () {},
                 child: const Text('FAQ', style: TextStyle(color: Colors.grey)),
               ),
-              Row(
+              const Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children: [
                   // fake social links using built-in icons
                   Icon(Icons.facebook, size: 18, color: Colors.grey),
                   SizedBox(width: 8),

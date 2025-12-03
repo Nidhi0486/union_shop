@@ -34,6 +34,7 @@ class _AccountPageState extends State<AccountPage> {
 
   Future<void> _load() async {
     await _auth.loadProfile();
+    if (!mounted) return;
     _profile = _auth.profile;
     _nameCtrl.text = _profile['name'] ?? '';
     _surnameCtrl.text = _profile['surname'] ?? '';
@@ -79,8 +80,10 @@ class _AccountPageState extends State<AccountPage> {
                         try {
                           await _auth.updateProfile(name: _nameCtrl.text.trim(), surname: _surnameCtrl.text.trim(), phone: _phoneCtrl.text.trim());
                           await _load();
+                          if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Profile updated')));
                         } catch (e) {
+                          if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Update failed: ${e.toString()}')));
                         }
                       },

@@ -28,7 +28,7 @@ class ProductPage extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: NetworkImageWithFallback(url: 'https://via.placeholder.com/800x800', fit: BoxFit.cover),
+                      child: const NetworkImageWithFallback(url: 'https://via.placeholder.com/800x800', fit: BoxFit.cover),
                     ),
                   ),
 

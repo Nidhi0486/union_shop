@@ -11,11 +11,45 @@ class CollectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final name = ModalRoute.of(context)!.settings.arguments as String? ?? 'Hoodies';
-    final products = List.generate(6, (i) => {
-          'title': '$name Hoodie ${i + 1}',
-          'price': '£${25 + i * 5}.00',
-          'image': 'https://via.placeholder.com/400x400.png'
-        });
+    // Pick image lists based on collection name so each collection shows correct items
+    final lower = name.toLowerCase();
+    List<String> imageList;
+    if (lower.contains('hoodie')) {
+      // Use the exact hoodie asset filenames present in assets/images/
+      imageList = [
+        'assets/images/hoodie1.jpg',
+        'assets/images/hoodie2.png',
+        'assets/images/hoodie3.png',
+        'assets/images/Ivory_Hoodie4.png',
+        'assets/images/RainbowHoodie5.png',
+        'assets/images/SageHoodie6.png',
+      ];
+    } else if (lower.contains('shirt') || lower.contains('t-shirt') || lower.contains('tshirt')) {
+      imageList = [
+        'assets/images/tshirt.png',
+        'assets/images/tshirt1.webp',
+        'assets/images/tshirt.png',
+      ];
+    } else {
+      // accessories - curated list: PortsmouthCity souvenirs + notebooks/pads
+      imageList = [
+        'assets/images/PortsmouthCityBookmark.png',
+        'assets/images/PortsmouthCityKeyring.jpg',
+        'assets/images/PortsmouthCityMagnet.png',
+        'assets/images/PortsmouthCityPostcard.png',
+        'assets/images/Notebook.png',
+        'assets/images/Notepad.png',
+      ];
+    }
+
+    final products = List.generate(imageList.length, (i) {
+      final index = i + 1;
+      return {
+        'title': '$name $index',
+        'price': '£${25 + i * 5}.00',
+        'image': imageList[i],
+      };
+    });
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -61,7 +95,7 @@ class CollectionPage extends StatelessWidget {
                         imageUrl: p['image']!,
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => ProductDetailPage(product: Map<String, String>.from(p))),
+                          MaterialPageRoute(builder: (_) => ProductDetailPage(product: Map<String, dynamic>.from(p))),
                         ),
                       );
                     }).toList(),
