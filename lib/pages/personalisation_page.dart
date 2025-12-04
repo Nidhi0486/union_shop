@@ -108,9 +108,9 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                               onPressed: () {
                                 // create a Product with the personalisation metadata encoded in the id/title
                                 final p = Product(
-                                  id: 'personalised:${_text}:${_fontSize}:${_color.value}',
+                                  id: 'personalised:$_text:$_fontSize:${_color.value}',
                                   title: 'Personalised item - ${_text.isEmpty ? 'Custom' : _text}',
-                                  description: 'Personalised with "${_text}"',
+                                  description: 'Personalised with "$_text"',
                                   price: 25.0,
                                   imageUrl: _sampleImage,
                                 );
@@ -145,7 +145,7 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                                   child: Text(
                                     _text.isEmpty ? 'Your text' : _text,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: _fontSize, color: _color, fontWeight: FontWeight.bold, shadows: [const Shadow(blurRadius: 2, color: Colors.black26)]),
+                                    style: TextStyle(fontSize: _fontSize, color: _color, fontWeight: FontWeight.bold, shadows: const [Shadow(blurRadius: 2, color: Colors.black26)]),
                                   ),
                                 ),
                               ],

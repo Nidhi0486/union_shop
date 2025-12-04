@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import '../widgets/header.dart';
 import '../widgets/footer.dart';
+import '../models/cart.dart';
+import '../models/product.dart';
 
 class SalesPage extends StatelessWidget {
   const SalesPage({super.key});
@@ -148,6 +151,32 @@ class SalesPage extends StatelessWidget {
                                         child: const Text('SALE', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                                       ),
                                     ),
+                                    // Add to cart button
+                                    Positioned(
+                                      right: 8,
+                                      bottom: 8,
+                                      child: Builder(builder: (btnCtx) {
+                                        return ElevatedButton.icon(
+                                          style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF4d2963)),
+                                          onPressed: () {
+                                            // construct a Product instance from the sale map
+                                            final priceStr = p['price'] ?? '£0.00';
+                                            final priceVal = double.tryParse(priceStr.replaceAll(RegExp(r'[^0-9\.]'), '')) ?? 0.0;
+                                            final prod = Product(
+                                              id: p['title'] ?? DateTime.now().toIso8601String(),
+                                              title: p['title'] ?? 'Sale item',
+                                              description: p['Discription'] ?? '',
+                                              price: priceVal,
+                                              imageUrl: resolved,
+                                            );
+                                            context.read<CartModel>().add(prod, qty: 1);
+                                            ScaffoldMessenger.of(btnCtx).showSnackBar(const SnackBar(content: Text('Added to cart')));
+                                          },
+                                          icon: const Icon(Icons.add_shopping_cart, size: 16),
+                                          label: const Text('Add'),
+                                        );
+                                      }),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -201,7 +230,7 @@ class SalesPage extends StatelessWidget {
     };
 
     for (final v in variants) {
-      final candidate = 'assets/images/' + v.split('/').last;
+      final candidate = 'assets/images/${v.split('/').last}';
       if (available.contains(candidate)) return candidate;
     }
 

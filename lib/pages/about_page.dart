@@ -9,6 +9,7 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     const accent = Color(0xFF4d2963);
     return Scaffold(
+      backgroundColor: const Color(0xFFf2e8fb),
       body: SingleChildScrollView(
         child: Column(
           children: [
