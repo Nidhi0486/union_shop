@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/services.dart';
 import '../models/cart.dart';
 import '../pages/about_page.dart';
 
@@ -73,8 +72,9 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                   const SizedBox(width: 8),
                   TextButton(onPressed: () => _go(context, '/sales'), child: const Text('Sales')),
                   const SizedBox(width: 8),
-                  TextButton(onPressed: () => _go(context, '/preview'), child: const Text('Preview')),
+                  TextButton(onPressed: () => _go(context, '/personalize'), child: const Text('Personalize')),
                   const SizedBox(width: 8),
+                  // Preview button removed
                   TextButton(
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutPage()));

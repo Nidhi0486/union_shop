@@ -45,17 +45,26 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 360,
-                    width: double.infinity,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Builder(builder: (c) {
+                  FocusableActionDetector(
+                    enabled: false,
+                    mouseCursor: SystemMouseCursors.basic,
+                    child: SizedBox(
+                      height: 360,
+                      width: double.infinity,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Builder(builder: (c) {
                           if (images is List && images.isNotEmpty) {
                             return PageView(
                               children: images.map<Widget>((img) {
                                 if ((img).startsWith('assets/')) {
-                                  return Image.asset(img, fit: BoxFit.cover, errorBuilder: (ctx, e, st) => Center(child: Text('Image not found', style: TextStyle(color: Colors.grey[600]))));
+                                  return Image.asset(
+                                    img,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (ctx, e, st) => Center(
+                                      child: Text('Image not found', style: TextStyle(color: Colors.grey[600])),
+                                    ),
+                                  );
                                 }
                                 return NetworkImageWithFallback(url: img, fit: BoxFit.cover);
                               }).toList(),
@@ -63,10 +72,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           }
 
                           if ((image).startsWith('assets/')) {
-                            return Image.asset(image, fit: BoxFit.cover, errorBuilder: (ctx, e, st) => Center(child: Text('Image not found', style: TextStyle(color: Colors.grey[600]))));
+                            return Image.asset(
+                              image,
+                              fit: BoxFit.cover,
+                              errorBuilder: (ctx, e, st) => Center(
+                                child: Text('Image not found', style: TextStyle(color: Colors.grey[600])),
+                              ),
+                            );
                           }
+
                           return NetworkImageWithFallback(url: image, fit: BoxFit.cover);
                         }),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -78,41 +95,49 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   const SizedBox(height: 6),
                   const Text('This is a hardcoded description for the dummy product. Replace with real data when available.', style: TextStyle(color: Colors.pink)),
                   const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: DropdownButtonFormField<String>(
-                          initialValue: _selectedSize,
-                          items: const [
-                            DropdownMenuItem(value: 'XS', child: Text('XS')),
-                            DropdownMenuItem(value: 'S', child: Text('S')),
-                            DropdownMenuItem(value: 'M', child: Text('M')),
-                            DropdownMenuItem(value: 'L', child: Text('L')),
-                            DropdownMenuItem(value: 'XL', child: Text('XL')),
-                          ],
-                          onChanged: (v) => setState(() => _selectedSize = v),
-                          decoration: const InputDecoration(labelText: 'Size'),
+                  // Show size and colour only for clothing items
+                  Builder(builder: (ctx) {
+                    final titleLower = title.toString().toLowerCase();
+                    final showVariants = titleLower.contains('hoodie') || titleLower.contains('t-shirt') || titleLower.contains('tshirt') || titleLower.contains('shirt') || titleLower.contains('tee');
+                    if (!showVariants) return const SizedBox.shrink();
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: DropdownButtonFormField<String>(
+                            value: _selectedSize,
+                            items: const [
+                              DropdownMenuItem(value: 'XS', child: Text('XS')),
+                              DropdownMenuItem(value: 'S', child: Text('S')),
+                              DropdownMenuItem(value: 'M', child: Text('M')),
+                              DropdownMenuItem(value: 'L', child: Text('L')),
+                              DropdownMenuItem(value: 'XL', child: Text('XL')),
+                            ],
+                            onChanged: (v) => setState(() => _selectedSize = v),
+                            decoration: const InputDecoration(labelText: 'Size'),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: DropdownButtonFormField<String>(
-                          initialValue: _selectedColor,
-                          items: const [
-                            DropdownMenuItem(value: 'Purple', child: Text('Purple')),
-                            DropdownMenuItem(value: 'Pink', child: Text('Pink')),
-                            DropdownMenuItem(value: 'Red', child: Text('Red')),
-                            DropdownMenuItem(value: 'Blue', child: Text('Blue')),
-                            DropdownMenuItem(value: 'Green', child: Text('Green')),
-                            DropdownMenuItem(value: 'Black', child: Text('Black')),
-                            DropdownMenuItem(value: 'White', child: Text('White')),
-                          ],
-                          onChanged: (v) => setState(() => _selectedColor = v),
-                          decoration: const InputDecoration(labelText: 'Colour'),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: DropdownButtonFormField<String>(
+                            value: _selectedColor,
+                            items: const [
+                              DropdownMenuItem(value: 'Purple', child: Text('Purple')),
+                              DropdownMenuItem(value: 'Pink', child: Text('Pink')),
+                              DropdownMenuItem(value: 'Red', child: Text('Red')),
+                              DropdownMenuItem(value: 'Blue', child: Text('Blue')),
+                              DropdownMenuItem(value: 'Green', child: Text('Green')),
+                              DropdownMenuItem(value: 'Black', child: Text('Black')),
+                              DropdownMenuItem(value: 'White', child: Text('White')),
+                              DropdownMenuItem(value: 'Grey', child: Text('Grey')),
+                              DropdownMenuItem(value: 'Yellow', child: Text('Yellow')),
+                            ],
+                            onChanged: (v) => setState(() => _selectedColor = v),
+                            decoration: const InputDecoration(labelText: 'Colour'),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    );
+                  }),
                   const SizedBox(height: 12),
                   Row(
                     children: [
@@ -135,7 +160,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         price: priceValue,
                         imageUrl: image as String,
                       );
-                      Provider.of<CartModel>(context, listen: false).add(p, qty: _quantity);
+                      final titleLower = title.toString().toLowerCase();
+                      final showVariants = titleLower.contains('hoodie') || titleLower.contains('t-shirt') || titleLower.contains('tshirt') || titleLower.contains('shirt') || titleLower.contains('tee');
+                      Provider.of<CartModel>(context, listen: false).add(p, qty: _quantity, size: showVariants ? _selectedSize : null);
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Added to cart')));
                     },
                     child: const Padding(

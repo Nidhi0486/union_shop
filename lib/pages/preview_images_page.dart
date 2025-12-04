@@ -55,18 +55,22 @@ class PreviewImagesPage extends StatelessWidget {
                         itemBuilder: (context, i) {
                           final asset = images[i];
                           final name = asset.split('/').last;
-                          return Column(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(border: Border.all(color: Colors.grey.shade300)),
-                                  child: Image.asset(asset, fit: BoxFit.cover, errorBuilder: (c, e, st) => const Center(child: Icon(Icons.broken_image))),
+                          return FocusableActionDetector(
+                            enabled: false,
+                            mouseCursor: SystemMouseCursors.basic,
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(border: Border.all(color: Colors.grey.shade300)),
+                                    child: Image.asset(asset, fit: BoxFit.cover, errorBuilder: (c, e, st) => const Center(child: Icon(Icons.broken_image))),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 6),
-                              Text(name, style: const TextStyle(fontSize: 12), overflow: TextOverflow.ellipsis),
-                            ],
+                                const SizedBox(height: 6),
+                                Text(name, style: const TextStyle(fontSize: 12), overflow: TextOverflow.ellipsis),
+                              ],
+                            ),
                           );
                         },
                       );

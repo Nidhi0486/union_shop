@@ -19,6 +19,7 @@ import 'package:union_shop/widgets/product_card.dart';
 import 'package:union_shop/pages/product_detail_page.dart';
 import 'package:union_shop/pages/account_page.dart';
 import 'package:union_shop/pages/preview_images_page.dart';
+import 'package:union_shop/pages/personalization_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -80,6 +81,7 @@ class UnionShopApp extends StatelessWidget {
           '/signup': (context) => const SignupPage(),
           '/account': (context) => const AccountPage(),
           '/preview': (context) => const PreviewImagesPage(),
+          '/personalize': (context) => const PersonalizationPage(),
         },
       ),
     );
@@ -136,32 +138,26 @@ class _HomeScreenState extends State<HomeScreen> {
       {
         'title': 'Purple Hoodie',
         'price': '£30.00',
-        'description': 'Comfortable purple hoodie, 100% cotton.',
+        'description': 'Purple Hoodie: A cozy purple hoodie that adds a bold pop of color to casual outfits.',
         'images': ['assets/images/hoodie1.jpg', 'assets/images/hoodie2.png']
       },
       {
         'title': 'Pink Hoodie',
         'price': '£28.00',
-        'description': 'Soft pink hoodie with embroidered logo.',
+        'description': 'Pink Hoodie: A soft pink hoodie designed for everyday comfort with a clean, modern look.',
         'images': ['assets/images/hoodie2.png', 'assets/images/hoodie3.png']
       },
       {
-        'title': 'Classic T-shirt',
+        'title': 'T-Shirt',
         'price': '£15.00',
-        'description': 'Everyday tee, unisex fit.',
+        'description': 'T-Shirt: A lightweight, breathable T-shirt made for easy all-day wear.',
         'images': ['assets/images/tshirt.png', 'assets/images/tshirt1.webp']
       },
       {
-        'title': 'Portsmouth Notebook',
+        'title': 'Notebook Set',
         'price': '£12.00',
-        'description': 'Official Portsmouth notebook.',
+        'description': 'Notebook Set: Eco-friendly notebooks with matching pens, perfect for jotting ideas or daily notes.',
         'images': ['assets/images/Notebook.png']
-      },
-      {
-        'title': 'Portsmouth Postcard Set',
-        'price': '£6.00',
-        'description': 'Pack of Portsmouth city postcards.',
-        'images': ['assets/images/PortsmouthCityPostcard.png']
       },
     ];
 
@@ -207,6 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Text('Shop now', style: TextStyle(fontSize: 16)),
                                   ),
                                 ),
+                                // Personalise button removed from the hero — accessible from the header nav
                               ],
                             ),
                           ),
@@ -262,7 +259,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisCount: cols,
                           crossAxisSpacing: 12,
                           mainAxisSpacing: 12,
-                          childAspectRatio: 0.9,
+                          // Give more vertical space so image + text don't overflow
+                          childAspectRatio: 0.7,
                         ),
                         itemCount: products.length,
                         itemBuilder: (context, i) {

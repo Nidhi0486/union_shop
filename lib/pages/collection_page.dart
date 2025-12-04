@@ -31,25 +31,42 @@ class CollectionPage extends StatelessWidget {
         'assets/images/tshirt.png',
       ];
     } else {
-      // accessories - curated list: PortsmouthCity souvenirs + notebooks/pads
+      // accessories - show only the two primary items (avoid empty/missing images)
+      // Use exact filenames present in assets/images/
       imageList = [
-        'assets/images/PortsmouthCityBookmark.png',
         'assets/images/PortsmouthCityKeyring.jpg',
-        'assets/images/PortsmouthCityMagnet.png',
-        'assets/images/PortsmouthCityPostcard.png',
         'assets/images/Notebook.png',
-        'assets/images/Notepad.png',
       ];
     }
 
-    final products = List.generate(imageList.length, (i) {
-      final index = i + 1;
-      return {
-        'title': '$name $index',
-        'price': '£${25 + i * 5}.00',
-        'image': imageList[i],
-      };
-    });
+    // Build products. For accessories we prefer explicit titles/prices to avoid generic placeholders.
+    late final List<Map<String, String>> products;
+    if (lower.contains('accessor') || lower.contains('accessories')) {
+      products = [
+        {
+          'title': 'Portsmouth Keyring',
+          'price': '£6.00',
+          'image': 'assets/images/PortsmouthCityKeyring.jpg',
+          'description': 'A stylish keyring featuring the iconic Portsmouth city emblem, perfect for showing off your city pride.',
+        },
+        {
+          'title': 'Notebook Set',
+          'price': '£12.00',
+          'image': 'assets/images/Notebook.png',
+          'description': 'A set of two A5 notebooks featuring iconic Portsmouth landmarks on the covers.',
+        },
+        
+      ];
+    } else {
+      products = List.generate(imageList.length, (i) {
+        final index = i + 1;
+        return {
+          'title': '$name $index',
+          'price': '£${25 + i * 5}.00',
+          'image': imageList[i],
+        };
+      });
+    }
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -83,23 +100,32 @@ class CollectionPage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  GridView.count(
-                    shrinkWrap: true,
-                    crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 1,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    children: products.map((p) {
-                      return ProductCardSmall(
-                        title: p['title']!,
-                        price: p['price']!,
-                        imageUrl: p['image']!,
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => ProductDetailPage(product: Map<String, dynamic>.from(p))),
-                        ),
-                      );
-                    }).toList(),
-                  ),
+                  LayoutBuilder(builder: (ctx, cons) {
+                    final cols = cons.maxWidth > 600 ? 3 : 1;
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: cols,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                        childAspectRatio: 0.7,
+                      ),
+                      itemCount: products.length,
+                      itemBuilder: (context, idx) {
+                        final p = products[idx];
+                        return ProductCardSmall(
+                          title: p['title']!,
+                          price: p['price']!,
+                          imageUrl: p['image']!,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => ProductDetailPage(product: Map<String, dynamic>.from(p))),
+                          ),
+                        );
+                      },
+                    );
+                  }),
                 ],
               ),
             ),

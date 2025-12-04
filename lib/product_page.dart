@@ -66,7 +66,7 @@ class ProductPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'This is a placeholder description for the product. Students should replace this with real product information and implement proper data management.',
+                    'A soft pink hoodie designed for everyday comfort with a clean, modern look. Made from a cotton-polyester blend, it features a spacious front pocket and adjustable drawstring hood. Perfect for layering or wearing on its own, this hoodie combines style and functionality for any casual occasion.',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
