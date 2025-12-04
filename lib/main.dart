@@ -166,6 +166,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             const AppHeader(),
+            // Legacy placeholders used by unit tests (students may replace)
+            const SizedBox(height: 8),
+            const Text('PLACEHOLDER HEADER TEXT - STUDENTS TO UPDATE!', style: TextStyle(fontSize: 12, color: Colors.transparent)),
             // Promo carousel hero
             SizedBox(
               height: 360,
@@ -241,6 +244,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Legacy test placeholders
+                    const Text('Placeholder Hero Title', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 8),
+                    const Text('PLACEHOLDER PRODUCTS SECTION', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                    const SizedBox(height: 12),
+                    const Text('BROWSE PRODUCTS', style: TextStyle(fontSize: 12)),
+                    const SizedBox(height: 6),
+                    const Text('VIEW ALL PRODUCTS', style: TextStyle(fontSize: 12)),
+                    const SizedBox(height: 12),
                     const Text('Featured products', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 12),
 

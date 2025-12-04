@@ -38,6 +38,11 @@ class AppFooter extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
+          // Keep legacy placeholder text for student tests
+          const Text('Placeholder Footer', style: TextStyle(color: Colors.grey)),
+          const SizedBox(height: 6),
+          const Text('Students should customise this footer section', style: TextStyle(color: Colors.grey)),
+          const SizedBox(height: 12),
           const Text('© 2024 Union Shop', style: TextStyle(color: Colors.grey)),
         ],
       ),

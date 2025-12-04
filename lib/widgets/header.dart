@@ -63,18 +63,15 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           // Center navigation
           Expanded(
             child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
+              child: Wrap(
+                spacing: 8,
+                alignment: WrapAlignment.center,
                 children: [
                   TextButton(onPressed: () => _go(context, '/'), child: const Text('Home')),
-                  const SizedBox(width: 8),
                   TextButton(onPressed: () => _go(context, '/collections'), child: const Text('Collections')),
-                  const SizedBox(width: 8),
                   TextButton(onPressed: () => _go(context, '/sales'), child: const Text('Sales')),
-                  const SizedBox(width: 8),
                   TextButton(onPressed: () => _go(context, '/personalize'), child: const Text('Personalize')),
-                  const SizedBox(width: 8),
-                  // Preview button removed
+                  // About
                   TextButton(
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutPage()));
